@@ -48,11 +48,6 @@ public class Drivetrain extends SubsystemBase {
 		resetEncoders();
 	}
 
-	@Override
-	public void periodic() {
-	//	System.out.println("L: " + getEncoderLeft() + " R: " + getEncoderRight());
-	}
-
 	public void arcadeDrive(double speed, double rotate) {
 		drive.arcadeDrive(speed, rotate);
 	}
@@ -83,5 +78,10 @@ public class Drivetrain extends SubsystemBase {
 
 	public Limelight getLimelight() {
 		return limelight;
+	}
+
+	@Override
+	public void periodic() {
+	//	System.out.println("L: " + getEncoderLeft() + " R: " + getEncoderRight());
 	}
 }

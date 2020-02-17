@@ -7,24 +7,18 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
 	
-	private final WPI_TalonSRX intakeArm, sucker;
+	private final WPI_TalonSRX arm, intake;
 
 	public Intake() {
-		intakeArm = new WPI_TalonSRX(Constants.INTAKE_ARM_ADDRESS);
-		sucker = new WPI_TalonSRX(Constants.INTAKE_SUCKER_ADDRESS);
+		arm = new WPI_TalonSRX(Constants.INTAKE_ARM_ADDRESS);
+		intake = new WPI_TalonSRX(Constants.INTAKE_SUCKER_ADDRESS);
 	}
 
 	public void setArm(double power) {
-		intakeArm.set(power);
+		arm.set(power);
 	}
-
-	public void setSuck(double power) {
-		sucker.set(power);
-	}
-
-	public void intakeComs(double suckPow, double armPow) {
-		setSuck(suckPow);
-		setArm(armPow);
+	public void setIntake(double power) {
+		intake.set(power);
 	}
 
 	@Override

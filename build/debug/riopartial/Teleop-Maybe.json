@@ -5,12 +5,5 @@
     "debugfile": "frcJava_roborio.debugconfig",
     "project": "Teleop-Maybe",
     "language": "java"
-  },
-  {
-    "artifact": "frcJava (in project TeleopAlpha)",
-    "target": "roborio",
-    "debugfile": "frcJava_roborio.debugconfig",
-    "project": "TeleopAlpha",
-    "language": "java"
   }
 ]

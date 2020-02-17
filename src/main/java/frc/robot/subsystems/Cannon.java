@@ -7,6 +7,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -14,6 +15,8 @@ public class Cannon extends SubsystemBase {
 	
 	private final CANSparkMax topShoot, botShoot;
 	private final WPI_TalonSRX feeder, climber;
+
+	private final DigitalInput frontSensor;
 
 	public Cannon() {
 		topShoot = new CANSparkMax(Constants.TOP_SHOOTER_ADDRESS, MotorType.kBrushless);
@@ -39,6 +42,8 @@ public class Cannon extends SubsystemBase {
 
 		climber.configFactoryDefault();
 		climber.setNeutralMode(NeutralMode.Brake);
+
+		frontSensor = new DigitalInput(3);
 	}
 
 	public void shoot(boolean b){
@@ -51,28 +56,25 @@ public class Cannon extends SubsystemBase {
 			botShoot.set(0);
 		}
 	}
-
 	public void pidShoot(double top, double bot) {
 		topShoot.getPIDController().setReference(top * Constants.SHOOTER_MAX_VELOCITY, ControlType.kVelocity);
 		botShoot.getPIDController().setReference(bot * Constants.SHOOTER_MAX_VELOCITY, ControlType.kVelocity);
 		System.out.println(topShoot.getEncoder().getVelocity());
 	}
 
-	public void feed(double pow) {
+	public void setFeeder(double pow) {
 		feeder.set(pow);
 	}
-
-	public void setClimb(double pow) {
+	public void setClimber(double pow) {
 		climber.set(pow);
 	}
 
-	public void cannonComs(boolean a, double b, double p){
-		shoot(a);
-		feed(b);
-		setClimb(p);
+	public boolean getFrontSensor() {
+		return frontSensor.get();
 	}
 
 	@Override
 	public void periodic() {
+	//	System.out.println("top: " + topShoot.getEncoder().getVelocity() + " bot: " + botShoot.getEncoder().getVelocity());
 	}
 }
