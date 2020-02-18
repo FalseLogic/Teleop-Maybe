@@ -61,6 +61,20 @@ public class Cannon extends SubsystemBase {
 		botShoot.getPIDController().setReference(bot * Constants.SHOOTER_MAX_VELOCITY, ControlType.kVelocity);
 		System.out.println(topShoot.getEncoder().getVelocity());
 	}
+	public void easyShoot() {
+		if(topShoot.getEncoder().getVelocity() >= -.6 * Constants.SHOOTER_MAX_VELOCITY) {
+			topShoot.set(-.485);
+		}
+		else {
+			topShoot.set(0);
+		}
+		if(botShoot.getEncoder().getVelocity() >= -1 * Constants.SHOOTER_MAX_VELOCITY ) {
+			botShoot.set(-.89);
+		}
+		else {
+			botShoot.set(0);
+		}
+	}
 
 	public void setFeeder(double pow) {
 		feeder.set(pow);
@@ -71,6 +85,13 @@ public class Cannon extends SubsystemBase {
 
 	public boolean getFrontSensor() {
 		return frontSensor.get();
+	}
+
+	public double getTopVelocity() {
+		return topShoot.getEncoder().getVelocity();
+	}
+	public double getBottomVelocity() {
+		return botShoot.getEncoder().getVelocity();
 	}
 
 	@Override

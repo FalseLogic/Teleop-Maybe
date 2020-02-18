@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Anglers;
 
@@ -28,10 +27,10 @@ public class DefaultAngler extends CommandBase {
     @Override
     public void execute() {
         if(dartUp.getAsBoolean() && anglers.getTopLimit()) {
-            anglers.setDart(.6);
+            anglers.setDart(.3);
         }
         else if(dartDown.getAsBoolean() && anglers.getBottomLimit()) {
-            anglers.setDart(-.6);
+            anglers.setDart(-.3);
         }
         else {
             anglers.setDart(0);
@@ -46,8 +45,6 @@ public class DefaultAngler extends CommandBase {
         else {
             anglers.setLead(0);
         }
-
-        SmartDashboard.putBoolean("test", anglers.getLeadLimit());
     }
 
     @Override

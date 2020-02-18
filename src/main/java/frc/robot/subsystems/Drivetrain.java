@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Limelight;
 
@@ -83,5 +84,9 @@ public class Drivetrain extends SubsystemBase {
 	@Override
 	public void periodic() {
 	//	System.out.println("L: " + getEncoderLeft() + " R: " + getEncoderRight());
+		SmartDashboard.putBoolean("Limelight Valid Target", limelight.getValidTarget());
+		SmartDashboard.putNumber("Limelight Area", limelight.getArea());
+		SmartDashboard.putNumber("Limelight X", limelight.getX());
+		SmartDashboard.putNumber("Limelight Y", limelight.getY());
 	}
 }
