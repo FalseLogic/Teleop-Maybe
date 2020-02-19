@@ -61,15 +61,15 @@ public class Cannon extends SubsystemBase {
 		botShoot.getPIDController().setReference(bot * Constants.SHOOTER_MAX_VELOCITY, ControlType.kVelocity);
 		System.out.println(topShoot.getEncoder().getVelocity());
 	}
-	public void easyShoot() {
-		if(topShoot.getEncoder().getVelocity() >= -.6 * Constants.SHOOTER_MAX_VELOCITY) {
-			topShoot.set(-.485);
+	public void easyShoot(double power) {
+		if(topShoot.getEncoder().getVelocity() >= -.6 * Constants.SHOOTER_MAX_VELOCITY * power) {
+			topShoot.set(-.6 * power);
 		}
 		else {
 			topShoot.set(0);
 		}
-		if(botShoot.getEncoder().getVelocity() >= -1 * Constants.SHOOTER_MAX_VELOCITY ) {
-			botShoot.set(-.89);
+		if(botShoot.getEncoder().getVelocity() >= -1 * Constants.SHOOTER_MAX_VELOCITY * power) {
+			botShoot.set(-1 * power);
 		}
 		else {
 			botShoot.set(0);
@@ -96,6 +96,6 @@ public class Cannon extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-	//	System.out.println("top: " + topShoot.getEncoder().getVelocity() + " bot: " + botShoot.getEncoder().getVelocity());
+		System.out.println("top: " + topShoot.getEncoder().getVelocity() + " bot: " + botShoot.getEncoder().getVelocity());
 	}
 }

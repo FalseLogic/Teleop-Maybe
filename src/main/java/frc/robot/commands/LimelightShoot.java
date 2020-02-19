@@ -1,42 +1,47 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.Limelight;
 
-public class LimelightDrive extends CommandBase {
+public class LimelightShoot extends CommandBase {
 
+    private final Cannon cannon;
     private final Drivetrain drivetrain;
 
     private final Limelight limelight;
 
-    boolean finished;
+    public LimelightShoot(Cannon cannon, Drivetrain drivetrain) {
+        this.cannon = cannon;
+        addRequirements(cannon);
 
-    public LimelightDrive(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
         limelight = drivetrain.getLimelight();
-        finished = false;
     }
 
     @Override
     public void initialize() {
-        finished = false;
     }
 
     @Override
     public void execute() {
         if(limelight.getValidTarget()) {
-            double turn;
-            if(Math.abs(limelight.getX()) > 1.25) {
-                turn = Math.copySign(.315, limelight.getX());
+            if(limelight.getArea() > 6) {
+                shoot(.8);
             }
             else {
-                turn = 0;
-                finished = true;
+
             }
-            drivetrain.arcadeDrive(0, turn);
+        }
+    }
+
+    private void shoot(double speed) {
+        cannon.pidShoot(0.65 * speed, speed);
+        if(cannon.getBottomVelocity() < -3600 * Math.abs(speed)) {
+            cannon.setFeeder(-1);
         }
     }
 
@@ -47,6 +52,6 @@ public class LimelightDrive extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return finished;
+        return false;
     }
 }

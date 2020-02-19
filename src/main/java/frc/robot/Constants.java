@@ -11,8 +11,8 @@ public final class Constants {
                             LEAD_ADDRESS = 13;
 
     public static final double AUTO_TARGET_TURN_KP = 0,
-                               SHOOTER_VELOCITY_KP = 0.0003,
-                               SHOOTER_VELOCITY_KF = 0.000198,
+                               SHOOTER_VELOCITY_KP = 0.00095,
+                               SHOOTER_VELOCITY_KF = 0.000199,
                                SHOOTER_MAX_VELOCITY = 4200;
 
 
