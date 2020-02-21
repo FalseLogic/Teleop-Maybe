@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
@@ -11,7 +12,7 @@ public class DefaultIntake extends CommandBase {
 
     private final BooleanSupplier suck;
 
-    public DefaultIntake(BooleanSupplier suck, Intake intake) {
+    public DefaultIntake(BooleanSupplier suck, Intake intake /*, BooleanSupplier intakePower*/) {
         this.intake = intake;
         addRequirements(intake);
 
@@ -25,7 +26,7 @@ public class DefaultIntake extends CommandBase {
     @Override
     public void execute() {
         if(suck.getAsBoolean()) {
-            intake.setIntake(-.7);
+            intake.setIntake(-1);
         }
         else {
             intake.setIntake(0);

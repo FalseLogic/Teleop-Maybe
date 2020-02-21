@@ -43,7 +43,7 @@ public class DefaultCannon extends CommandBase {
                 sensorWasTriggered = true;
             }
             else if(sensorWasTriggered) {
-                if(indexTimer.get() > .15) {
+                if(indexTimer.get() > .25) {
                     indexTimer.stop();
                     indexTimer.reset();
                     sensorWasTriggered = false;

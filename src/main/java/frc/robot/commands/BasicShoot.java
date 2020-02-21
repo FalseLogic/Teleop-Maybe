@@ -20,7 +20,7 @@ public class BasicShoot extends CommandBase {
     public void execute() {
         double x = -.8;
         cannon.pidShoot(0.7 * x, x);
-        if(cannon.getBottomVelocity() < -3600 * Math.abs(x)) {
+        if(cannon.getBottomVelocity() < -3800 * Math.abs(x)) {
             cannon.setFeeder(-1);
         }
 

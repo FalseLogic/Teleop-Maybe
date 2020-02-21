@@ -28,8 +28,8 @@ public class DefaultDrive extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = forward.getAsDouble() * .5 * (invert.getAsBoolean() ? 1 : -1);
-        double rotate = rotation.getAsDouble() * .5;
+        double speed = forward.getAsDouble() * .65 * (invert.getAsBoolean() ? 1 : -1);
+        double rotate = rotation.getAsDouble() * .65;
 
         drivetrain.arcadeDrive(speed, rotate);
     }

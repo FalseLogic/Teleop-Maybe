@@ -9,6 +9,7 @@ import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.DefaultIntake;
 import frc.robot.commands.LimelightAngle;
 import frc.robot.commands.LimelightDrive;
+import frc.robot.commands.LimelightShoot;
 import frc.robot.subsystems.Anglers;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.Drivetrain;
@@ -56,15 +57,13 @@ public class RobotContainer {
 
 	private void setDefaultCommands() {
 		drivetrain.setDefaultCommand(new DefaultDrive(() -> stick.getY(), () -> stick.getZ(), () -> !stick.getRawButton(2), drivetrain));   
-		intake.setDefaultCommand(new DefaultIntake(() -> stick.getRawButton(11), intake));
+		intake.setDefaultCommand(new DefaultIntake(() -> stick.getRawButton(11), intake /*, () -> stick.getRawButton(9)*/));
 		cannon.setDefaultCommand(new DefaultCannon(() -> stick.getRawButton(12), cannon));
 		anglers.setDefaultCommand(new DefaultAngler(() -> stick.getRawButton(7), () -> stick.getRawButton(8),
-													() -> stick.getRawButton(9), () -> stick.getRawButton(10), anglers));
+													() -> false, () -> false, anglers));
 	}
 
 	private void configureButtonBindings() {
-		new JoystickButton(stick, 5).whenHeld(new LimelightDrive(drivetrain));
-
 		new JoystickButton(stick, 1).whenHeld(new BasicShoot(cannon));
 
 		new JoystickButton(stick, 4).whenHeld(
@@ -72,9 +71,14 @@ public class RobotContainer {
 				new ParallelCommandGroup(
 					new LimelightAngle(drivetrain.getLimelight(), anglers),
 					new LimelightDrive(drivetrain)),
-				new BasicShoot(cannon)
+				new LimelightShoot(cannon, drivetrain)
 			)
 		);
-
+/*
+		new JoystickButton(stick, 9).whenHeld(
+			BooleanSupplier suck = () -> true;
+			new DefaultIntake(suck,intake,-0.2);
+		);
+*/
 	}
 }
