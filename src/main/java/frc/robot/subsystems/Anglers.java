@@ -31,8 +31,16 @@ public class Anglers extends SubsystemBase {
 		dartPot = new AnalogInput(3);
 	}
 
-	public void setDart(double pow) {
+	private void setDart(double pow) {
 		dart.set(pow);
+	}
+	public void setDartSafely(double pow) {
+		if((pow > 0 && getTopLimit()) || (pow < 0 && getBottomLimit())) {
+			dart.set(pow);
+		}
+		else {
+			dart.set(0);
+		}
 	}
 	public void setLead(double pow) {
 		lead.set(pow);

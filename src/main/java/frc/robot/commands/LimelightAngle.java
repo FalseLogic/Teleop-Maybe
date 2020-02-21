@@ -27,19 +27,20 @@ public class LimelightAngle extends CommandBase {
     @Override
     public void execute() {
         if(limelight.getValidTarget()) {
-            if(limelight.getArea() > 6) {
-                if(limelight.getY() + 6 < -.25) {
+            if(limelight.getArea() > 5) {
+                double heightAdjustDegrees = (limelight.getVertical() / 2) * (59.6 / 320) / 2;
+                if(limelight.getY() + heightAdjustDegrees + 1 < -.5) {
                     if(anglers.getBottomLimit()) {
-                        anglers.setDart(-.4);
+                        anglers.setDartSafely(-.4);
                     }
                 }
-                else if(limelight.getY() + 6 > .25) {
+                else if(limelight.getY() + heightAdjustDegrees + 1 > .5) {
                     if(anglers.getTopLimit()) {
-                        anglers.setDart(.4);
+                        anglers.setDartSafely(.4);
                     }
                 }
                 else {
-                    anglers.setDart(0);
+                    anglers.setDartSafely(0);
                     finished = true;
                 }
             }
@@ -51,7 +52,7 @@ public class LimelightAngle extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        anglers.setDart(0);
+        anglers.setDartSafely(0);
     }
 
     @Override

@@ -46,6 +46,12 @@ public class Cannon extends SubsystemBase {
 		frontSensor = new DigitalInput(3);
 	}
 
+	public void setTopShoot(double a) {
+		topShoot.set(a);
+	}
+	public void setBottomShoot(double a) {
+		botShoot.set(a);
+	}
 	public void shoot(boolean b){
 		if(b) {
 			topShoot.set(-.5);

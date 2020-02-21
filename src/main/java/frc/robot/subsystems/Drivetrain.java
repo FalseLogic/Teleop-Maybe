@@ -88,5 +88,7 @@ public class Drivetrain extends SubsystemBase {
 		SmartDashboard.putNumber("Limelight Area", limelight.getArea());
 		SmartDashboard.putNumber("Limelight X", limelight.getX());
 		SmartDashboard.putNumber("Limelight Y", limelight.getY());
+		SmartDashboard.putNumber("Limelight Vertical", limelight.getVertical());
+		SmartDashboard.putNumber("Limelight Horizontal", limelight.getHorizontal());
 	}
 }

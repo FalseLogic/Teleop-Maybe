@@ -15,6 +15,7 @@ import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -57,10 +58,10 @@ public class RobotContainer {
 
 	private void setDefaultCommands() {
 		drivetrain.setDefaultCommand(new DefaultDrive(() -> stick.getY(), () -> stick.getZ(), () -> !stick.getRawButton(2), drivetrain));   
-		intake.setDefaultCommand(new DefaultIntake(() -> stick.getRawButton(11), intake /*, () -> stick.getRawButton(9)*/));
+		intake.setDefaultCommand(new DefaultIntake(() -> stick.getRawButton(11), intake));
 		cannon.setDefaultCommand(new DefaultCannon(() -> stick.getRawButton(12), cannon));
 		anglers.setDefaultCommand(new DefaultAngler(() -> stick.getRawButton(7), () -> stick.getRawButton(8),
-													() -> false, () -> false, anglers));
+													() -> stick.getRawButton(5), () -> stick.getRawButton(6), anglers));
 	}
 
 	private void configureButtonBindings() {
@@ -74,11 +75,9 @@ public class RobotContainer {
 				new LimelightShoot(cannon, drivetrain)
 			)
 		);
-/*
-		new JoystickButton(stick, 9).whenHeld(
-			BooleanSupplier suck = () -> true;
-			new DefaultIntake(suck,intake,-0.2);
-		);
-*/
+
+		new JoystickButton(stick, 9).whenHeld(new RunCommand(() -> cannon.setTopShoot(.2), cannon));
+		new JoystickButton(stick, 10).whenHeld(new RunCommand(() -> cannon.setBottomShoot(.2), cannon));
+
 	}
 }

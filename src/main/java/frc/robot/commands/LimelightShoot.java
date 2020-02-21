@@ -30,14 +30,14 @@ public class LimelightShoot extends CommandBase {
     public void execute() {
         if(limelight.getValidTarget()) {
 
-            double turn = Math.copySign(.23, limelight.getX());
-            drivetrain.arcadeDrive(0, Math.abs(limelight.getX()) > .5 ? turn : 0);
+            double turn = Math.copySign(.25, limelight.getX() + 1);
+            drivetrain.arcadeDrive(0, Math.abs(limelight.getX() + 1) > .5 ? turn : 0);
 
-            if(limelight.getArea() > 6) {
-                shoot(-.8);
+            if(limelight.getArea() > 5) {
+                shoot(.015 * limelight.getArea() - .875);
             }
             else {
-                shoot(-.9);
+    //            shoot(-.9);
             }
         }
     }

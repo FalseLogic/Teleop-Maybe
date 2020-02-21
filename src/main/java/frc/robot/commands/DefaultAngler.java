@@ -26,14 +26,14 @@ public class DefaultAngler extends CommandBase {
 
     @Override
     public void execute() {
-        if(dartUp.getAsBoolean() && anglers.getTopLimit()) {
-            anglers.setDart(.3);
+        if(dartUp.getAsBoolean()) {
+            anglers.setDartSafely(.3);
         }
-        else if(dartDown.getAsBoolean() && anglers.getBottomLimit()) {
-            anglers.setDart(-.3);
+        else if(dartDown.getAsBoolean()) {
+            anglers.setDartSafely(-.3);
         }
         else {
-            anglers.setDart(0);
+            anglers.setDartSafely(0);
         }
 
         if(leadUp.getAsBoolean() && !anglers.getLeadLimit()) {
@@ -49,7 +49,7 @@ public class DefaultAngler extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        anglers.setDart(0);
+        anglers.setDartSafely(0);
         anglers.setLead(0);
     }
 

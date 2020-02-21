@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
@@ -12,7 +11,7 @@ public class DefaultIntake extends CommandBase {
 
     private final BooleanSupplier suck;
 
-    public DefaultIntake(BooleanSupplier suck, Intake intake /*, BooleanSupplier intakePower*/) {
+    public DefaultIntake(BooleanSupplier suck, Intake intake) {
         this.intake = intake;
         addRequirements(intake);
 
