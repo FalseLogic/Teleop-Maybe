@@ -30,13 +30,14 @@ public class LimelightShoot extends CommandBase {
     public void execute() {
         if(limelight.getValidTarget()) {
 
-            double turn = Math.copySign(.25, limelight.getX() + 1);
+            double turn = Math.copySign(.235, limelight.getX() + 1);
             drivetrain.arcadeDrive(0, Math.abs(limelight.getX() + 1) > .5 ? turn : 0);
 
-            if(limelight.getArea() > 5) {
-                shoot(.015 * limelight.getArea() - .875);
+            if(limelight.getArea() > 3.5) {
+                shoot(.018 * limelight.getArea() - .88);
             }
             else {
+                //long shot here
     //            shoot(-.9);
             }
         }
@@ -44,7 +45,7 @@ public class LimelightShoot extends CommandBase {
 
     private void shoot(double speed) {
         cannon.pidShoot(0.7 * speed, speed);
-        if(cannon.getBottomVelocity() < -4000 * Math.abs(speed)) {
+        if(cannon.getBottomVelocity() < -4100 * Math.abs(speed) && cannon.getBottomVelocity() > -4300 * Math.abs(speed)) {
             cannon.setFeeder(-1);
         }
     }
