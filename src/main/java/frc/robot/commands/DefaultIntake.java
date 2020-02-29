@@ -25,16 +25,19 @@ public class DefaultIntake extends CommandBase {
     @Override
     public void execute() {
         if(suck.getAsBoolean()) {
-            intake.setIntake(-1);
+            intake.setIntake(-.75);
+            intake.setArm(.35);
         }
         else {
             intake.setIntake(0);
+            intake.setArm(0);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.setIntake(0);
+        intake.setArm(0);
     }
 
     @Override

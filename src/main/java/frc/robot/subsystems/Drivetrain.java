@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.util.Limelight;
 
 public class Drivetrain extends SubsystemBase {
@@ -22,10 +23,10 @@ public class Drivetrain extends SubsystemBase {
 	private final Limelight limelight;
 
 	public Drivetrain() {
-		frontLeft = new CANSparkMax(1, MotorType.kBrushless);
-		frontRight = new CANSparkMax(2, MotorType.kBrushless);
-		backLeft = new CANSparkMax(3, MotorType.kBrushless);
-		backRight = new CANSparkMax(4, MotorType.kBrushless);
+		frontLeft = new CANSparkMax(Constants.FRONT_LEFT_ADDRESS, MotorType.kBrushless);
+		frontRight = new CANSparkMax(Constants.FRONT_RIGHT_ADDRESS, MotorType.kBrushless);
+		backLeft = new CANSparkMax(Constants.BACK_LEFT_ADDRESS, MotorType.kBrushless);
+		backRight = new CANSparkMax(Constants.BACK_RIGHT_ADDRESS, MotorType.kBrushless);
 		
 		frontLeft.restoreFactoryDefaults();
 		frontRight.restoreFactoryDefaults();

@@ -15,7 +15,7 @@ public class Anglers extends SubsystemBase {
 	private final CANSparkMax dart;
 	private final WPI_TalonSRX lead;
 
-	private final DigitalInput topLim, botLim, leadLim;
+	private final DigitalInput dartTopLimit, dartBottomLimit, leadFrontLimit, leadBackLimit;
 	private final AnalogInput dartPot;
 
 	public Anglers() {
@@ -24,9 +24,10 @@ public class Anglers extends SubsystemBase {
 
 		lead = new WPI_TalonSRX(Constants.LEAD_ADDRESS);
 
-		topLim = new DigitalInput(0);
-		botLim = new DigitalInput(1);
-		leadLim = new DigitalInput(2);
+		dartTopLimit = new DigitalInput(Constants.DART_TOP_LIMIT_ADDRESS);
+		dartBottomLimit = new DigitalInput(Constants.DART_BOTTOM_LIMIT_ADDRESS);
+		leadFrontLimit = new DigitalInput(Constants.LEAD_FRONT_LIMIT_ADDRESS);
+		leadBackLimit = new DigitalInput(Constants.LEAD_BACK_LIMIT_ADDRESS);
 
 		dartPot = new AnalogInput(3);
 	}
@@ -35,7 +36,7 @@ public class Anglers extends SubsystemBase {
 		dart.set(pow);
 	}
 	public void setDartSafely(double pow) {
-		if((pow > 0 && getTopLimit()) || (pow < 0 && getBottomLimit())) {
+		if((pow > 0 && getDartTopLimit()) || (pow < 0 && getDartBottomLimit())) {
 			dart.set(pow);
 		}
 		else {
@@ -45,13 +46,22 @@ public class Anglers extends SubsystemBase {
 	public void setLead(double pow) {
 		lead.set(pow);
 	}
+	public void setLeadSafely(double pow) {
+		if((pow > 0 && !getLeadBackLimit()) || (pow < 0 && !getLeadFrontLimit())) {
+			lead.set(pow);
+		}
+		else {
+			lead.set(0);
+		}
+	}
+	
 	public boolean setDartPosition(double target) {
 		double realTarget = target * 4 + 0.9;
-		if(realTarget > getDartPot() + .05 && getTopLimit()) {
+		if(realTarget > getDartPot() + .05 && getDartTopLimit()) {
 			setDart(.8);
 			return false;
 		}
-		else if(realTarget < getDartPot() - .05 && getBottomLimit()) {
+		else if(realTarget < getDartPot() - .05 && getDartBottomLimit()) {
 			setDart(-.8);
 			return false;
 		}
@@ -61,15 +71,19 @@ public class Anglers extends SubsystemBase {
 		}
 	}
 
-	public boolean getTopLimit() {
-		return topLim.get();
+	public boolean getDartTopLimit() {
+		return dartTopLimit.get();
 	}
-	public boolean getBottomLimit() {
-		return botLim.get();
+	public boolean getDartBottomLimit() {
+		return dartBottomLimit.get();
 	}
-	public boolean getLeadLimit() {
-		return leadLim.get();
+	public boolean getLeadFrontLimit() {
+		return leadFrontLimit.get();
 	}
+	public boolean getLeadBackLimit() {
+		return leadBackLimit.get();
+	}
+
 	public double getDartPot() {
 		return dartPot.getAverageVoltage();
 	}

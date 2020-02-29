@@ -35,15 +35,15 @@ public class DefaultCannon extends CommandBase {
         if(reverse.getAsBoolean()) {
             cannon.setFeeder(1);
         }
-        else {
-            if(!cannon.getFrontSensor()) {
+        else if(cannon.getShooterSensor()) {
+            if(!cannon.getIntakeSensor()) {
                 cannon.setFeeder(-1);
                 indexTimer.reset();
                 indexTimer.start();
                 sensorWasTriggered = true;
             }
             else if(sensorWasTriggered) {
-                if(indexTimer.get() > .15) {
+                if(indexTimer.get() > 0) {
                     indexTimer.stop();
                     indexTimer.reset();
                     sensorWasTriggered = false;
@@ -53,6 +53,9 @@ public class DefaultCannon extends CommandBase {
             else {
                 cannon.setFeeder(0);
             }
+        }
+        else {
+            cannon.setFeeder(0);
         }
 
     }

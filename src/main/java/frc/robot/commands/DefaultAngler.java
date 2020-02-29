@@ -36,11 +36,11 @@ public class DefaultAngler extends CommandBase {
             anglers.setDartSafely(0);
         }
 
-        if(leadUp.getAsBoolean() && !anglers.getLeadLimit()) {
-            anglers.setLead(1);
+        if(leadUp.getAsBoolean()) {
+            anglers.setLeadSafely(.5);
         }
         else if(leadDown.getAsBoolean()) {
-            anglers.setLead(-1);
+            anglers.setLeadSafely(-.5);
         }
         else {
             anglers.setLead(0);

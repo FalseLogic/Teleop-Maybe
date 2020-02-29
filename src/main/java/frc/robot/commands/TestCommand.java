@@ -1,15 +1,21 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Cannon;
 
-public class BasicShoot extends CommandBase {
+public class TestCommand extends CommandBase {
+
+    private final BooleanSupplier a;
 
     private final Cannon cannon;
 
-    public BasicShoot(Cannon cannon) {
+    public TestCommand(BooleanSupplier a, Cannon cannon) {
         this.cannon = cannon;
         addRequirements(cannon);
+
+        this.a = a;
     }
 
     @Override
@@ -18,21 +24,17 @@ public class BasicShoot extends CommandBase {
 
     @Override
     public void execute() {
-        double x = -.8;
-        cannon.pidShootPlus(0.7 * x, x);
-        if(cannon.getBottomVelocity() < -3800 * Math.abs(x)) {
-            cannon.setFeeder(-1);
+        if(a.getAsBoolean()) {
+            cannon.setClimber(1);
         }
         else {
-            cannon.setFeeder(0);
+            cannon.setClimber(0);
         }
-
     }
 
     @Override
     public void end(boolean interrupted) {
         cannon.shoot(false);
-        cannon.setFeeder(0);
     }
 
     @Override

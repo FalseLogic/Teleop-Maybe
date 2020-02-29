@@ -10,6 +10,7 @@ import frc.robot.commands.DefaultIntake;
 import frc.robot.commands.LimelightAngle;
 import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.LimelightShoot;
+import frc.robot.commands.TestCommand;
 import frc.robot.subsystems.Anglers;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.Drivetrain;
@@ -38,10 +39,8 @@ public class RobotContainer {
 	private final Cannon cannon;
 	private final Anglers anglers; //no they are not fishermen;
 
-	Joystick stick;
-	XboxController xbox;
-
-	DigitalInput testIndex;
+	private final Joystick stick;
+	private final XboxController xbox;
 
 	public RobotContainer() {
 		stick = new Joystick(0);
@@ -65,7 +64,8 @@ public class RobotContainer {
 	}
 
 	private void configureButtonBindings() {
-		new JoystickButton(stick, 1).whenHeld(new BasicShoot(cannon));
+		//new JoystickButton(stick, 1).whenHeld(new BasicShoot(cannon));
+		//new JoystickButton(stick, 1).whenHeld(new TestCommand(() -> stick.getRawButton(11), cannon));
 
 		new JoystickButton(stick, 4).whenHeld(
 			new SequentialCommandGroup(
@@ -75,9 +75,6 @@ public class RobotContainer {
 				new LimelightShoot(cannon, drivetrain)
 			)
 		);
-
-		new JoystickButton(stick, 9).whenHeld(new RunCommand(() -> cannon.setTopShoot(.2), cannon));
-		new JoystickButton(stick, 10).whenHeld(new RunCommand(() -> cannon.setBottomShoot(.2), cannon));
 
 	}
 }

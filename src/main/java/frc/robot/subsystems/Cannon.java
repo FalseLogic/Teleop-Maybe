@@ -16,7 +16,7 @@ public class Cannon extends SubsystemBase {
 	private final CANSparkMax topShoot, botShoot;
 	private final WPI_TalonSRX feeder, climber;
 
-	private final DigitalInput frontSensor;
+	private final DigitalInput intakeSensor, shooterSensor;
 
 	public Cannon() {
 		topShoot = new CANSparkMax(Constants.TOP_SHOOTER_ADDRESS, MotorType.kBrushless);
@@ -43,7 +43,8 @@ public class Cannon extends SubsystemBase {
 		climber.configFactoryDefault();
 		climber.setNeutralMode(NeutralMode.Brake);
 
-		frontSensor = new DigitalInput(3);
+		intakeSensor = new DigitalInput(Constants.INTAKE_BALL_SENSOR_ADDRESS);
+		shooterSensor = new DigitalInput(Constants.SHOOTER_BALL_SENSOR_ADDRESS);
 	}
 
 	public void setTopShoot(double a) {
@@ -65,7 +66,24 @@ public class Cannon extends SubsystemBase {
 	public void pidShoot(double top, double bot) {
 		topShoot.getPIDController().setReference(top * Constants.SHOOTER_MAX_VELOCITY, ControlType.kVelocity);
 		botShoot.getPIDController().setReference(bot * Constants.SHOOTER_MAX_VELOCITY, ControlType.kVelocity);
-		System.out.println(topShoot.getEncoder().getVelocity());
+	}
+	public void pidShootPlus(double top, double bot) {
+		double topTarget = top * Constants.SHOOTER_MAX_VELOCITY, botTarget = bot * Constants.SHOOTER_MAX_VELOCITY;
+
+		if(topShoot.getEncoder().getVelocity() > .6 * topTarget) {
+			topShoot.set(-1);
+		}
+		else {
+			topShoot.getPIDController().setReference(topTarget, ControlType.kVelocity);
+		}
+
+		if(botShoot.getEncoder().getVelocity() > .6 * botTarget) {
+			botShoot.set(-1);
+		}
+		else {
+			botShoot.getPIDController().setReference(botTarget, ControlType.kVelocity);
+		}
+
 	}
 	public void easyShoot(double power) {
 		if(topShoot.getEncoder().getVelocity() >= -.6 * Constants.SHOOTER_MAX_VELOCITY * power) {
@@ -89,8 +107,11 @@ public class Cannon extends SubsystemBase {
 		climber.set(pow);
 	}
 
-	public boolean getFrontSensor() {
-		return frontSensor.get();
+	public boolean getIntakeSensor() {
+		return intakeSensor.get();
+	}
+	public boolean getShooterSensor() {
+		return shooterSensor.get();
 	}
 
 	public double getTopVelocity() {
