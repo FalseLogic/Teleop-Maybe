@@ -35,39 +35,27 @@ public class Anglers extends SubsystemBase {
 	private void setDart(double pow) {
 		dart.set(pow);
 	}
-	public void setDartSafely(double pow) {
+	public boolean setDartSafely(double pow) {
 		if((pow > 0 && getDartTopLimit()) || (pow < 0 && getDartBottomLimit())) {
-			dart.set(pow);
+			setDart(pow);
+			return true;
 		}
 		else {
-			dart.set(0);
+			setDart(0);
+			return false;
 		}
 	}
 	public void setLead(double pow) {
 		lead.set(pow);
 	}
-	public void setLeadSafely(double pow) {
+	public boolean setLeadSafely(double pow) {
 		if((pow > 0 && !getLeadBackLimit()) || (pow < 0 && !getLeadFrontLimit())) {
-			lead.set(pow);
-		}
-		else {
-			lead.set(0);
-		}
-	}
-	
-	public boolean setDartPosition(double target) {
-		double realTarget = target * 4 + 0.9;
-		if(realTarget > getDartPot() + .05 && getDartTopLimit()) {
-			setDart(.8);
-			return false;
-		}
-		else if(realTarget < getDartPot() - .05 && getDartBottomLimit()) {
-			setDart(-.8);
-			return false;
-		}
-		else {
-			setDart(0);
+			setLead(pow);
 			return true;
+		}
+		else {
+			setLead(0);
+			return false;
 		}
 	}
 

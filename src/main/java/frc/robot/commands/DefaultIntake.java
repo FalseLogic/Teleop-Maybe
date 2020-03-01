@@ -9,13 +9,16 @@ public class DefaultIntake extends CommandBase {
 
     private final Intake intake;
 
-    private final BooleanSupplier suck;
+    private final BooleanSupplier suck, spit, armUp, armDown;
 
-    public DefaultIntake(BooleanSupplier suck, Intake intake) {
+    public DefaultIntake(BooleanSupplier suck, BooleanSupplier spit, BooleanSupplier armUp, BooleanSupplier armDown, Intake intake) {
         this.intake = intake;
         addRequirements(intake);
 
         this.suck = suck;
+        this.spit = spit;
+        this.armUp = armUp;
+        this.armDown = armDown;
     }
 
     @Override
@@ -28,9 +31,21 @@ public class DefaultIntake extends CommandBase {
             intake.setIntake(-.75);
             intake.setArm(.35);
         }
+        else if(spit.getAsBoolean()) {
+            intake.setIntake(.5);
+            intake.setArm(0);
+        }
         else {
             intake.setIntake(0);
-            intake.setArm(0);
+            if(armUp.getAsBoolean()) {
+                intake.setArm(-1);
+            }
+            else if(armDown.getAsBoolean()) {
+                intake.setArm(1);
+            }
+            else {
+                intake.setArm(0);
+            }
         }
     }
 

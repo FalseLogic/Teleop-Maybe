@@ -50,6 +50,9 @@ public class Drivetrain extends SubsystemBase {
 		resetEncoders();
 	}
 
+	public void arcadeDrive(double speed, double rotate, boolean squareInputs) {
+		drive.arcadeDrive(speed, rotate, squareInputs);
+	}
 	public void arcadeDrive(double speed, double rotate) {
 		drive.arcadeDrive(speed, rotate);
 	}

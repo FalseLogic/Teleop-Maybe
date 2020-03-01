@@ -13,6 +13,8 @@ public class DefaultDrive extends CommandBase {
     private final DoubleSupplier forward, rotation;
     private final BooleanSupplier invert;
 
+    private int direction  = 1;
+
     public DefaultDrive(DoubleSupplier forward, DoubleSupplier rotation, BooleanSupplier invert, Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
@@ -28,10 +30,18 @@ public class DefaultDrive extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = forward.getAsDouble() * .65 * (invert.getAsBoolean() ? 1 : -1);
-        double rotate = rotation.getAsDouble() * .65;
 
-        drivetrain.arcadeDrive(speed, rotate);
+        if(invert.getAsBoolean()) {
+            direction *= -1;
+        }
+
+        double speed = forward.getAsDouble() * direction;
+        double rotate = rotation.getAsDouble();
+
+        speed = Math.copySign(Math.pow(speed, 3) * .8, speed);
+        rotate = Math.copySign(Math.pow(rotate, 3) * .8, rotate);
+
+        drivetrain.arcadeDrive(speed, rotate, false);
     }
 
     @Override

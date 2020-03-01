@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BasicShoot;
 import frc.robot.commands.DefaultAngler;
 import frc.robot.commands.DefaultCannon;
@@ -10,16 +12,10 @@ import frc.robot.commands.DefaultIntake;
 import frc.robot.commands.LimelightAngle;
 import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.LimelightShoot;
-import frc.robot.commands.TestCommand;
 import frc.robot.subsystems.Anglers;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 public class RobotContainer {
 
@@ -56,25 +52,25 @@ public class RobotContainer {
 	}
 
 	private void setDefaultCommands() {
-		drivetrain.setDefaultCommand(new DefaultDrive(() -> stick.getY(), () -> stick.getZ(), () -> !stick.getRawButton(2), drivetrain));   
-		intake.setDefaultCommand(new DefaultIntake(() -> stick.getRawButton(11), intake));
-		cannon.setDefaultCommand(new DefaultCannon(() -> stick.getRawButton(12), cannon));
-		anglers.setDefaultCommand(new DefaultAngler(() -> stick.getRawButton(7), () -> stick.getRawButton(8),
-													() -> stick.getRawButton(5), () -> stick.getRawButton(6), anglers));
+		drivetrain.setDefaultCommand(new DefaultDrive(() -> stick.getY(), () -> stick.getZ(), () -> stick.getRawButtonPressed(1), drivetrain));   
+		intake.setDefaultCommand(new DefaultIntake(() -> xbox.getXButton(), () -> xbox.getBButton(),
+												   () -> xbox.getYButton(), () -> xbox.getAButton(), intake));
+		cannon.setDefaultCommand(new DefaultCannon(() -> xbox.getBackButton(), cannon));
+		anglers.setDefaultCommand(new DefaultAngler(() -> stick.getRawButton(7), () -> stick.getRawButton(8), anglers));
 	}
 
-	private void configureButtonBindings() {
-		//new JoystickButton(stick, 1).whenHeld(new BasicShoot(cannon));
-		//new JoystickButton(stick, 1).whenHeld(new TestCommand(() -> stick.getRawButton(11), cannon));
+	private void configureButtonBindings() { 
+
+		new JoystickButton(xbox, 6).whenHeld(new BasicShoot(cannon));
 
 		new JoystickButton(stick, 4).whenHeld(
-			new SequentialCommandGroup(
-				new ParallelCommandGroup(
-					new LimelightAngle(drivetrain.getLimelight(), anglers),
-					new LimelightDrive(drivetrain)),
-				new LimelightShoot(cannon, drivetrain)
-			)
+			new ParallelCommandGroup(
+				new LimelightAngle(drivetrain.getLimelight(), anglers),
+				new LimelightDrive(drivetrain))
 		);
 
+		new JoystickButton(xbox, 5).whenHeld(new LimelightShoot(cannon, drivetrain));
+
+		//new JoystickButton(stick, 3).whenHeld(new PixyAuto(drivetrain, intake));
 	}
 }
