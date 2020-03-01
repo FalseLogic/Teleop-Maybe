@@ -2,7 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BasicShoot;
 import frc.robot.commands.DefaultAngler;
@@ -71,6 +73,21 @@ public class RobotContainer {
 
 		new JoystickButton(xbox, 5).whenHeld(new LimelightShoot(cannon, drivetrain));
 
+		new LLToggleButton().whenPressed(new InstantCommand(() -> drivetrain.getLimelight().setLED(true)))
+							.whenReleased(new InstantCommand(() -> drivetrain.getLimelight().setLED(false)));
+
 		//new JoystickButton(stick, 3).whenHeld(new PixyAuto(drivetrain, intake));
+	}
+
+	private class LLToggleButton extends Button {
+
+		public LLToggleButton() {
+
+		}
+
+		public boolean get() {
+			return stick.getRawButton(4) || xbox.getRawButton(5);
+		}
+
 	}
 }

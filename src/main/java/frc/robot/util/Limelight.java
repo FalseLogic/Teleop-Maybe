@@ -6,40 +6,44 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight {
 
-    private String id;
-    private NetworkTable kTable;
-    private NetworkTableEntry tv, tx, ty, ta, ts, tl, tshort, tlong, thor, tvert, getpipe; 
+    private final String id;
+    private final NetworkTable table;
+    private final NetworkTableEntry tv, tx, ty, ta, ts, tl, tshort, tlong, thor, tvert, getpipe, ledMode; 
 
     public Limelight(String id) {
         this.id = id;
-        kTable = NetworkTableInstance.getDefault().getTable("limelight-" + this.id);
-        tv = kTable.getEntry("tv");
-        tx = kTable.getEntry("tx");
-        ty = kTable.getEntry("ty");
-        ta = kTable.getEntry("ta");
-        ts = kTable.getEntry("ts");
-        tl = kTable.getEntry("tl");
-        tshort = kTable.getEntry("tshort");
-        tlong = kTable.getEntry("tlong");
-        thor = kTable.getEntry("thor");
-        tvert = kTable.getEntry("tvert");
-        getpipe = kTable.getEntry("getpipe"); 
+        table = NetworkTableInstance.getDefault().getTable("limelight-" + this.id);
+        tv = table.getEntry("tv");
+        tx = table.getEntry("tx");
+        ty = table.getEntry("ty");
+        ta = table.getEntry("ta");
+        ts = table.getEntry("ts");
+        tl = table.getEntry("tl");
+        tshort = table.getEntry("tshort");
+        tlong = table.getEntry("tlong");
+        thor = table.getEntry("thor");
+        tvert = table.getEntry("tvert");
+        getpipe = table.getEntry("getpipe");
+
+        ledMode = table.getEntry("ledMode");
     }
 
     public Limelight() {
         this.id = "";
-        kTable = NetworkTableInstance.getDefault().getTable("limelight");
-        tv = kTable.getEntry("tv");
-        tx = kTable.getEntry("tx");
-        ty = kTable.getEntry("ty");
-        ta = kTable.getEntry("ta");
-        ts = kTable.getEntry("ts");
-        tl = kTable.getEntry("tl");
-        tshort = kTable.getEntry("tshort");
-        tlong = kTable.getEntry("tlong");
-        thor = kTable.getEntry("thor");
-        tvert = kTable.getEntry("tvert");
-        getpipe = kTable.getEntry("getpipe"); 
+        table = NetworkTableInstance.getDefault().getTable("limelight");
+        tv = table.getEntry("tv");
+        tx = table.getEntry("tx");
+        ty = table.getEntry("ty");
+        ta = table.getEntry("ta");
+        ts = table.getEntry("ts");
+        tl = table.getEntry("tl");
+        tshort = table.getEntry("tshort");
+        tlong = table.getEntry("tlong");
+        thor = table.getEntry("thor");
+        tvert = table.getEntry("tvert");
+        getpipe = table.getEntry("getpipe");
+
+        ledMode = table.getEntry("ledMode");
     }
 
     public boolean getValidTarget() {
@@ -77,6 +81,10 @@ public class Limelight {
     }
     public double getPipeline() {
         return getpipe.getDouble(0.0);
+    }
+
+    public void setLED(boolean on) {
+        ledMode.setNumber(on ? 3 : 1);
     }
 }
 
