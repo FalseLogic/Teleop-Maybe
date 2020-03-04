@@ -1,6 +1,7 @@
 package frc.robot;
 
 public final class Constants {
+    
     //CAN IDs
     public static final int FRONT_LEFT_ADDRESS = 1,
                             FRONT_RIGHT_ADDRESS = 2,
@@ -20,7 +21,7 @@ public final class Constants {
                             DART_BOTTOM_LIMIT_ADDRESS = 1,
                             LEAD_FRONT_LIMIT_ADDRESS = 4,
                             LEAD_BACK_LIMIT_ADDRESS = 2,
-                            INTAKE_BALL_SENSOR_ADDRESS = 3  ,
+                            INTAKE_BALL_SENSOR_ADDRESS = 3,
                             SHOOTER_BALL_SENSOR_ADDRESS = 5;
 
     //Analog ports

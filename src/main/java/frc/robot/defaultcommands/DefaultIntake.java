@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.defaultcommands;
 
 import java.util.function.BooleanSupplier;
 
@@ -28,8 +28,8 @@ public class DefaultIntake extends CommandBase {
     @Override
     public void execute() {
         if(suck.getAsBoolean()) {
-            intake.setIntake(-.75);
-            intake.setArm(.35);
+            intake.setIntake(-1);
+            intake.setArm(.3);
         }
         else if(spit.getAsBoolean()) {
             intake.setIntake(.5);
@@ -38,10 +38,10 @@ public class DefaultIntake extends CommandBase {
         else {
             intake.setIntake(0);
             if(armUp.getAsBoolean()) {
-                intake.setArm(-1);
+                intake.setArm(-.6);
             }
             else if(armDown.getAsBoolean()) {
-                intake.setArm(1);
+                intake.setArm(.6);
             }
             else {
                 intake.setArm(0);

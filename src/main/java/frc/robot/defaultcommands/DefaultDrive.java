@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.defaultcommands;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -39,7 +39,7 @@ public class DefaultDrive extends CommandBase {
         double rotate = rotation.getAsDouble();
 
         speed = Math.copySign(Math.pow(speed, 3) * .8, speed);
-        rotate = Math.copySign(Math.pow(rotate, 3) * .8, rotate);
+        rotate = Math.copySign(Math.pow(rotate, 3) * .7, rotate);
 
         drivetrain.arcadeDrive(speed, rotate, false);
     }

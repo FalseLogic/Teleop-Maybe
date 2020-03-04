@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.defaultcommands;
 
 import java.util.function.BooleanSupplier;
 
@@ -8,14 +8,15 @@ import frc.robot.subsystems.Anglers;
 public class DefaultAngler extends CommandBase {
 
     private final Anglers anglers;
-    private final BooleanSupplier up, down;
+    private final BooleanSupplier up, down, reset;
 
-    public DefaultAngler(BooleanSupplier up, BooleanSupplier down, Anglers anglers) {
+    public DefaultAngler(BooleanSupplier up, BooleanSupplier down, BooleanSupplier reset, Anglers anglers) {
         this.anglers = anglers;
         addRequirements(anglers);
 
         this.up = up;
         this.down = down;
+        this.reset = reset;
     }
 
     @Override
@@ -24,15 +25,25 @@ public class DefaultAngler extends CommandBase {
 
     @Override
     public void execute() {
-        if(up.getAsBoolean()) {
-            if(!anglers.setDartSafely(.75)) {
-                //stop based on lead encoder for climbing
-                anglers.setLeadSafely(.75);
+        if(reset.getAsBoolean()) {
+            if(anglers.getDartPot() < 3.75) {
+                anglers.setDartSafely(.3);
+            }
+            else if(anglers.getDartPot() > 3.79) {
+                anglers.setDartSafely(-.3);
+            }
+            else {
+                anglers.setDartSafely(0);
+            }
+        }
+        else if(up.getAsBoolean()) {
+            if(!anglers.setDartSafely(.8)) {
+                anglers.setLeadSafely(.8);
             }
         }
         else if(down.getAsBoolean()) {
-            if(!anglers.setLeadSafely(-.75)) {
-                anglers.setDartSafely(-.75);
+            if(!anglers.setLeadSafely(-.8)) {
+                anglers.setDartSafely(-.8);
             }
         }
         else {

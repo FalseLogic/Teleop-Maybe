@@ -7,7 +7,7 @@ public class AutoTurn extends CommandBase {
 
     private final Drivetrain drivetrain;
 
-    private final double power, angle, startAngle;
+    private final double power, angle;
 
     public AutoTurn(double angle, double power, Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
@@ -15,7 +15,6 @@ public class AutoTurn extends CommandBase {
 
         this.angle = angle;
         this.power = power;
-        startAngle = drivetrain.getAngle();
     }
 
     @Override
@@ -34,10 +33,10 @@ public class AutoTurn extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(drivetrain.getAngle() >= startAngle + angle && power > 0) {
+        if(drivetrain.getAngle() >= angle && power > 0) {
             return true;
         }
-        if(drivetrain.getAngle() <= startAngle - angle && power < 0) {
+        if(drivetrain.getAngle() <= angle && power < 0) {
             return true;
         }
         return false;

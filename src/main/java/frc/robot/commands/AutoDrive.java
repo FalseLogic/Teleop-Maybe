@@ -7,14 +7,15 @@ public class AutoDrive extends CommandBase {
 
     private final Drivetrain drivetrain;
 
-    private final double power, distance, startEncoder;
+    private final double power, targetDistance, startEncoder;
+    private double distanceTraveled;
 
-    public AutoDrive(double distance, double power, Drivetrain drivetrain) {
+    public AutoDrive(double targetDistance, double power, Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
         this.power = power;
-        this.distance = distance;
+        this.targetDistance = targetDistance;
         startEncoder = drivetrain.getEncoderAverage();
     }
 
@@ -25,6 +26,7 @@ public class AutoDrive extends CommandBase {
     @Override
     public void execute() {
         drivetrain.arcadeDrive(power, 0);
+        distanceTraveled = Math.abs(drivetrain.getEncoderAverage() - startEncoder);
     }
 
     @Override
@@ -34,10 +36,7 @@ public class AutoDrive extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(drivetrain.getEncoderAverage() >= startEncoder + distance && power > 0) {
-            return true;
-        }
-        if(drivetrain.getEncoderAverage() <= startEncoder - distance && power < 0) {
+        if(Math.abs(drivetrain.getEncoderAverage() - startEncoder) >= targetDistance) {
             return true;
         }
         return false;

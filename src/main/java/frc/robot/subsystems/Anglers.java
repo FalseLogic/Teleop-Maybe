@@ -29,7 +29,7 @@ public class Anglers extends SubsystemBase {
 		leadFrontLimit = new DigitalInput(Constants.LEAD_FRONT_LIMIT_ADDRESS);
 		leadBackLimit = new DigitalInput(Constants.LEAD_BACK_LIMIT_ADDRESS);
 
-		dartPot = new AnalogInput(3);
+		dartPot = new AnalogInput(Constants.DART_POTENTIOMETER_ADDRESS);
 	}
 
 	private void setDart(double pow) {
@@ -57,6 +57,10 @@ public class Anglers extends SubsystemBase {
 			setLead(0);
 			return false;
 		}
+	}
+
+	public void getInsidePerimeter() {
+	//	setLeadSafely(-.5);
 	}
 
 	public boolean getDartTopLimit() {

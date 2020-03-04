@@ -10,14 +10,14 @@ public class LimelightDrive extends CommandBase {
 
     private final Limelight limelight;
 
-    boolean finished;
+    private boolean finished;
+
 
     public LimelightDrive(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
         limelight = drivetrain.getLimelight();
-        finished = false;
     }
 
     @Override
@@ -29,8 +29,11 @@ public class LimelightDrive extends CommandBase {
     public void execute() {
         if(limelight.getValidTarget()) {
             double turn;
-            if(Math.abs(limelight.getX() - 1) > 2) {
-                turn = Math.copySign(.23, limelight.getX() - 1);
+            if(Math.abs(limelight.getX() - 2) > 3) {
+                turn = Math.copySign(.34, limelight.getX() - 1);
+            }
+            else if(Math.abs(limelight.getX() - 2) > 1) {
+                turn = Math.copySign(.32, limelight.getX() - 1);
             }
             else {
                 turn = 0;

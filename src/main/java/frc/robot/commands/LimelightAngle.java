@@ -10,7 +10,7 @@ public class LimelightAngle extends CommandBase {
 
     private final Limelight limelight;
 
-    boolean finished = false;
+    private boolean finished;
 
     public LimelightAngle(Limelight limelight, Anglers anglers) {
         this.anglers = anglers;
@@ -27,26 +27,20 @@ public class LimelightAngle extends CommandBase {
     @Override
     public void execute() {
         if(limelight.getValidTarget()) {
-            if(limelight.getArea() > 2) {
-                double heightAdjustDegrees = (limelight.getVertical() / 2) * (59.6 / 320) / 2;
-                if(limelight.getY() + heightAdjustDegrees - 1 < -.4) {
-                    if(anglers.getDartBottomLimit()) {
-                        anglers.setDartSafely(-.4);
-                    }
+            double heightAdjustDegrees = (limelight.getVertical() / 2) * (59.6 / 320) / 2;
+            if(limelight.getY() + heightAdjustDegrees - .0 < -.5) {
+                if(anglers.getDartBottomLimit()) {
+                    anglers.setDartSafely(-.3);
                 }
-                else if(limelight.getY() + heightAdjustDegrees - 1 > .4) {
-                    if(anglers.getDartTopLimit()) {
-                        anglers.setDartSafely(.4);
-                    }
-                }
-                else {
-                    anglers.setDartSafely(0);
-                    finished = true;
+            }
+            else if(limelight.getY() + heightAdjustDegrees - .0 > .5) {
+                if(anglers.getDartTopLimit()) {
+                    anglers.setDartSafely(.3);
                 }
             }
             else {
-                //Long shot here
-                //finished = anglers.setDartPosition(.22);
+                anglers.setDartSafely(0);
+                finished = true;
             }
         }
     }

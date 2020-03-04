@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -17,6 +18,8 @@ public class Cannon extends SubsystemBase {
 	private final WPI_TalonSRX feeder, climber;
 
 	private final DigitalInput intakeSensor, shooterSensor;
+
+	private int climbEncoderOffset;
 
 	public Cannon() {
 		topShoot = new CANSparkMax(Constants.TOP_SHOOTER_ADDRESS, MotorType.kBrushless);
@@ -42,6 +45,7 @@ public class Cannon extends SubsystemBase {
 
 		climber.configFactoryDefault();
 		climber.setNeutralMode(NeutralMode.Brake);
+		climbEncoderOffset =  climber.getSelectedSensorPosition();
 
 		intakeSensor = new DigitalInput(Constants.INTAKE_BALL_SENSOR_ADDRESS);
 		shooterSensor = new DigitalInput(Constants.SHOOTER_BALL_SENSOR_ADDRESS);
@@ -120,9 +124,15 @@ public class Cannon extends SubsystemBase {
 	public double getBottomVelocity() {
 		return botShoot.getEncoder().getVelocity();
 	}
+	
+	//Full extension at 27000
+	public int getClimbEncoder() {
+		return climber.getSelectedSensorPosition() - climbEncoderOffset;
+	}
 
 	@Override
 	public void periodic() {
-		System.out.println("top: " + topShoot.getEncoder().getVelocity() + " bot: " + botShoot.getEncoder().getVelocity());
+		SmartDashboard.putNumber("climber encoder", getClimbEncoder());
+	//	System.out.println("top: " + topShoot.getEncoder().getVelocity() + " bot: " + botShoot.getEncoder().getVelocity());
 	}
 }

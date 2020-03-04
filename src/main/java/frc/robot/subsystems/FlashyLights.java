@@ -14,13 +14,14 @@ public class FlashyLights extends SubsystemBase {
 	public FlashyLights() {
 		strip = new AddressableLED(Constants.LED_STRIP_ADDRESS);
 		buffer = new AddressableLEDBuffer(Constants.LED_STRIP_LENGTH);
+		strip.setLength(Constants.LED_STRIP_LENGTH);
 		strip.setData(buffer);
 		strip.start();
 	}
 
-	public void setAllColor(int h, int s, int v) {
+	public void setAllColor(int r, int g, int b) {
 		for(int i = 0; i < buffer.getLength(); i++) {
-			buffer.setHSV(i, h, s, v);
+			buffer.setRGB(i, r, g, b);
 		}
 	}
 	public void setAllColor(Color color) {

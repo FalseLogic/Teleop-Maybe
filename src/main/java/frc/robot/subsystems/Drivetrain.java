@@ -48,6 +48,7 @@ public class Drivetrain extends SubsystemBase {
 		limelight = new Limelight();
 
 		resetEncoders();
+		resetAngle();
 	}
 
 	public void arcadeDrive(double speed, double rotate, boolean squareInputs) {
@@ -58,7 +59,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getEncoderLeft() {
-		return frontLeft.getEncoder().getPosition() + backLeft.getEncoder().getPosition();
+		return -1 * (frontLeft.getEncoder().getPosition() +  backLeft.getEncoder().getPosition());
 	}
 	public double getEncoderRight() {
 		return frontRight.getEncoder().getPosition() + backRight.getEncoder().getPosition();
@@ -87,12 +88,14 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-	//	System.out.println("L: " + getEncoderLeft() + " R: " + getEncoderRight());
+		//System.out.println("L: " + getEncoderLeft() + " R: " + getEncoderRight());
+		//System.out.println("Avg: " + getEncoderAverage());
 		SmartDashboard.putBoolean("Limelight Valid Target", limelight.getValidTarget());
 		SmartDashboard.putNumber("Limelight Area", limelight.getArea());
 		SmartDashboard.putNumber("Limelight X", limelight.getX());
 		SmartDashboard.putNumber("Limelight Y", limelight.getY());
 		SmartDashboard.putNumber("Limelight Vertical", limelight.getVertical());
 		SmartDashboard.putNumber("Limelight Horizontal", limelight.getHorizontal());
+		SmartDashboard.putNumber("Angle", getAngle());
 	}
 }

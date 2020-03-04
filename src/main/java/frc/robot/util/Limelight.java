@@ -26,6 +26,8 @@ public class Limelight {
         getpipe = table.getEntry("getpipe");
 
         ledMode = table.getEntry("ledMode");
+
+        setLED(true);
     }
 
     public Limelight() {
@@ -44,6 +46,8 @@ public class Limelight {
         getpipe = table.getEntry("getpipe");
 
         ledMode = table.getEntry("ledMode");
+
+        setLED(true);
     }
 
     public boolean getValidTarget() {
