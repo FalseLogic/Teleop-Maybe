@@ -38,8 +38,8 @@ public class DefaultDrive extends CommandBase {
         double speed = forward.getAsDouble() * direction;
         double rotate = rotation.getAsDouble();
 
-        speed = Math.copySign(Math.pow(speed, 3) * .8, speed);
-        rotate = Math.copySign(Math.pow(rotate, 3) * .7, rotate);
+        speed = Math.copySign(Math.pow(speed, 3) * .75, speed);
+        rotate = Math.copySign(Math.pow(rotate, 2) * .6, rotate);
 
         drivetrain.arcadeDrive(speed, rotate, false);
     }

@@ -6,6 +6,8 @@ import frc.robot.util.Limelight;
 
 public class LimelightAngle extends CommandBase {
 
+    public static boolean onTarget;
+
     private final Anglers anglers;
 
     private final Limelight limelight;
@@ -22,6 +24,7 @@ public class LimelightAngle extends CommandBase {
     @Override
     public void initialize() {
         finished = false;
+        onTarget = false;
     }
 
     @Override

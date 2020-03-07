@@ -33,10 +33,10 @@ public class DefaultCannon extends CommandBase {
 
         cannon.shoot(false);
         if(climb.getAsBoolean()) {
-            cannon.setClimber(-.8);
+            cannon.setClimber(-1);
         }
         else if(unclimb.getAsBoolean()) {
-            cannon.setClimber(.8);
+            cannon.setClimber(1);
         }
         else  {
             cannon.setClimber(0);

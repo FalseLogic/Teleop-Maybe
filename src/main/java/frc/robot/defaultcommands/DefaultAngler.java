@@ -26,11 +26,12 @@ public class DefaultAngler extends CommandBase {
     @Override
     public void execute() {
         if(reset.getAsBoolean()) {
+            anglers.setLeadSafely(-.4);
             if(anglers.getDartPot() < 3.75) {
-                anglers.setDartSafely(.3);
+                anglers.setDartSafely(.4);
             }
             else if(anglers.getDartPot() > 3.79) {
-                anglers.setDartSafely(-.3);
+                anglers.setDartSafely(-.4);
             }
             else {
                 anglers.setDartSafely(0);

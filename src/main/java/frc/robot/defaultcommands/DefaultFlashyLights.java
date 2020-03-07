@@ -3,7 +3,6 @@ package frc.robot.defaultcommands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FlashyLights;
 
@@ -13,7 +12,7 @@ public class DefaultFlashyLights extends CommandBase {
 
     private final BooleanSupplier full, seesTarget, onTarget, disco;
 
-    private Color allianceColor;
+    private int allianceR, allianceG, allianceB;
 
     public DefaultFlashyLights(BooleanSupplier full, BooleanSupplier seesTarget, BooleanSupplier onTarget, BooleanSupplier disco, FlashyLights lights) {
         this.lights = lights;
@@ -29,34 +28,45 @@ public class DefaultFlashyLights extends CommandBase {
     public void initialize() {
         switch(DriverStation.getInstance().getAlliance()) {
             case Blue:
-                allianceColor = Color.kFirstBlue;
+                allianceR = 0; allianceG = 0; allianceB = 200;
                 break;
             case Red:
-                allianceColor = Color.kFirstRed;
+                allianceR = 200; allianceG = 0; allianceB = 0;
                 break;
             default:
-                allianceColor = Color.kDarkViolet;
+                allianceR = 119; allianceG = 65; allianceB = 108;
                 break;
         }
     }
 
     @Override
     public void execute() {
+
+        /*if(DriverStation.getInstance().getMatchTime() < 35 && DriverStation.getInstance().isOperatorControl()) {
+            if(DriverStation.getInstance().getMatchTime() < 12) {
+                lights.rainbow();
+            }
+            else {
+                lights.flash(255, 255, 255, 20);
+            }
+        }*/
         if(disco.getAsBoolean()) {
             lights.rainbow();
         }
         else if(onTarget.getAsBoolean()) {
-            lights.setAllColor(Color.kGreen);
+            lights.setAllColor(0, 200, 0);
         }
         else if(seesTarget.getAsBoolean()) {
-            lights.flash(Color.kGreen, 10);
+            lights.flash(0, 200, 0, 40);
         }
         else if(full.getAsBoolean()) {
-            lights.setAllColor(Color.kYellow);
+            lights.setAllColor(255, 255, 0);
         }
         else {
-            lights.setAllColor(allianceColor);
+            lights.setAllColor(allianceR, allianceG, allianceB);
         }
+
+        lights.setData();
     }
 
     @Override

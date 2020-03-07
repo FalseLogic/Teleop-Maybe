@@ -14,19 +14,24 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.autocommands.SixBallAuto;
+import frc.robot.autocommands.ThreeBallAuto;
 import frc.robot.commands.AutoDrive;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.BasicShoot;
 import frc.robot.commands.LimelightAngle;
 import frc.robot.commands.LimelightDrive;
+import frc.robot.commands.LimelightIsOnTarget;
 import frc.robot.commands.LimelightShoot;
 import frc.robot.defaultcommands.DefaultAngler;
 import frc.robot.defaultcommands.DefaultCannon;
 import frc.robot.defaultcommands.DefaultDrive;
+import frc.robot.defaultcommands.DefaultFlashyLights;
 import frc.robot.defaultcommands.DefaultIntake;
 import frc.robot.subsystems.Anglers;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.FlashyLights;
 import frc.robot.subsystems.Intake;
 
 public class RobotContainer {
@@ -46,9 +51,12 @@ public class RobotContainer {
 	private final Intake intake;
 	private final Cannon cannon;
 	private final Anglers anglers; //no they are not fishermen;
+	private final FlashyLights lights;
 
 	private final Joystick stick;
 	private final XboxController xbox;
+
+	public static boolean limelightOnTarget;
 
 	private SendableChooser<Command> autoChooser;
 
@@ -60,10 +68,13 @@ public class RobotContainer {
 		intake = new Intake();
 		cannon = new Cannon();
 		anglers = new Anglers();
+		lights = new FlashyLights();
 		
 		setDefaultCommands();
 		configureButtonBindings();
 		putAutoChooser();
+
+		limelightOnTarget = false;
 	}
 
 	public void autoInit() {
@@ -79,16 +90,23 @@ public class RobotContainer {
 												   () -> xbox.getPOV() == 0, () -> xbox.getPOV() == 180, cannon));
 		anglers.setDefaultCommand(new DefaultAngler(() -> stick.getRawButton(7), () -> stick.getRawButton(8), 
 													() -> stick.getRawButton(11) && stick.getRawButton(12), anglers));
+		lights.setDefaultCommand(new DefaultFlashyLights(() -> DefaultCannon.isFull,
+														 () -> drivetrain.getLimelight().getValidTarget(),
+														 () -> limelightOnTarget,
+														 () -> stick.getRawButton(3),
+														 lights));
+
 	}
 
 	private void configureButtonBindings() { 
 
 		new JoystickButton(xbox, 6).whenHeld(new BasicShoot(cannon));
 
-		new JoystickButton(stick, 4).whenHeld(
+		new JoystickButton(stick, 2).whenHeld(
 			new ParallelCommandGroup(
 				new LimelightAngle(drivetrain.getLimelight(), anglers),
 				new LimelightDrive(drivetrain))
+			.andThen(new LimelightIsOnTarget())
 		);
 
 		new JoystickButton(xbox, 5).whenHeld(new LimelightShoot(cannon, drivetrain.getLimelight()));
@@ -99,14 +117,11 @@ public class RobotContainer {
 	private void putAutoChooser() {
 		autoChooser = new SendableChooser<Command>();
 
-		autoChooser.setDefaultOption("Nothing", new WaitCommand(10));
+		autoChooser.setDefaultOption("Nothing", new WaitCommand(14));
 		autoChooser.addOption("Move Forward", new AutoDrive(10, -.4, drivetrain));
-		autoChooser.addOption("Turn", new SequentialCommandGroup(
-			new AutoTurn(90, .3, drivetrain),
-			new AutoTurn(-45, -.3, drivetrain)
-		));
+		autoChooser.addOption("3 Balls Test", new ThreeBallAuto(drivetrain, anglers, cannon, intake));
 		autoChooser.addOption("3 Balls", new SequentialCommandGroup(
-			new RunCommand(() -> anglers.setDartSafely(-.5), anglers).withTimeout(1),
+			new RunCommand(() -> anglers.setDartSafely(-.5), anglers).withTimeout(1).andThen(new InstantCommand(() -> anglers.setDartSafely(0))),
 			new ParallelCommandGroup(
 				new LimelightAngle(drivetrain.getLimelight(), anglers),
 				new LimelightDrive(drivetrain),
@@ -118,10 +133,11 @@ public class RobotContainer {
 			),
 			new AutoDrive(40, -.5, drivetrain)
 		));
+		autoChooser.addOption("6 Balls Test", new SixBallAuto(drivetrain, anglers, cannon, intake));
 		autoChooser.addOption("6 Balls", new SequentialCommandGroup(
 			new ParallelDeadlineGroup(
 				new AutoTurn(-21, -.4, drivetrain),
-				new RunCommand(() -> anglers.setDartSafely(-.6), anglers).withTimeout(1.5)
+				new RunCommand(() -> anglers.setDartSafely(-.6), anglers).withTimeout(1.5).andThen(new InstantCommand(() -> anglers.setDartSafely(0)))
 			),
 			new ParallelCommandGroup(
 				new LimelightAngle(drivetrain.getLimelight(), anglers),

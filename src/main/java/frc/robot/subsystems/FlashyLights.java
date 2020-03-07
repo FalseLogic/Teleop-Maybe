@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -22,11 +21,6 @@ public class FlashyLights extends SubsystemBase {
 	public void setAllColor(int r, int g, int b) {
 		for(int i = 0; i < buffer.getLength(); i++) {
 			buffer.setRGB(i, r, g, b);
-		}
-	}
-	public void setAllColor(Color color) {
-		for(int i = 0; i < buffer.getLength(); i++) {
-			buffer.setLED(i, color);
 		}
 	}
 
@@ -57,12 +51,12 @@ public class FlashyLights extends SubsystemBase {
 		}
 
 	}
-	public void flash(Color color, int duration) {
-		flash((int)color.red, (int)color.green, (int)color.blue, duration);
+
+	public void setData() {
+		strip.setData(buffer);
 	}
 
 	@Override
 	public void periodic() {
-		strip.setData(buffer);
 	}
 }
