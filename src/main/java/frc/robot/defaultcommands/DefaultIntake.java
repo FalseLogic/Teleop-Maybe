@@ -28,8 +28,8 @@ public class DefaultIntake extends CommandBase {
     @Override
     public void execute() {
         if(suck.getAsBoolean()) {
-            intake.setIntake(-1);
-            intake.setArm(.3);
+            intake.setIntake(-.8);
+            intake.setArm(.15);
         }
         else if(spit.getAsBoolean()) {
             intake.setIntake(.5);

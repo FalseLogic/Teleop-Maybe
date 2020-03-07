@@ -24,14 +24,14 @@ public class LimelightShoot extends CommandBase {
     @Override
     public void execute() {
         if(limelight.getValidTarget()) {
-            shoot(.0307 * limelight.getArea() - .895);
+            shoot(.0331 * limelight.getArea() - .891);
         }
     }
 
     private void shoot(double speed) {
         cannon.pidShootPlus(0.7 * speed, speed);
-        if(cannon.getBottomVelocity() < -4000 * Math.abs(speed) && cannon.getBottomVelocity() > -4400 * Math.abs(speed)) {
-            cannon.setFeeder(-.6);
+        if(cannon.getBottomVelocity() < -4050 * Math.abs(speed)) {
+            cannon.setFeeder(-1);
         }
     }
 

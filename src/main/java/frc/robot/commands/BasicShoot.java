@@ -18,11 +18,9 @@ public class BasicShoot extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = -.92;
+        double speed = -1;
         cannon.pidShootPlus(0.7 * speed, speed);
-        if(cannon.getBottomVelocity() < -4100 * Math.abs(speed) && cannon.getBottomVelocity() > -4300 * Math.abs(speed)) {
-            cannon.setFeeder(-.5);
-        }
+        cannon.setFeeder(-.35);
 
     }
 

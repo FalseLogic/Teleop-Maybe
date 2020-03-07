@@ -29,11 +29,11 @@ public class LimelightDrive extends CommandBase {
     public void execute() {
         if(limelight.getValidTarget()) {
             double turn;
-            if(Math.abs(limelight.getX() - 2) > 3) {
-                turn = Math.copySign(.34, limelight.getX() - 1);
+            if(Math.abs(limelight.getX() - 1.35) > 4) {
+                turn = Math.copySign(.319, limelight.getX() - 1.5);
             }
-            else if(Math.abs(limelight.getX() - 2) > 1) {
-                turn = Math.copySign(.32, limelight.getX() - 1);
+            else if(Math.abs(limelight.getX() - 1.35) > .45) {
+                turn = Math.copySign(.307, limelight.getX() - 1.5);
             }
             else {
                 turn = 0;

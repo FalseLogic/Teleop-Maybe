@@ -1,29 +1,31 @@
-package frc.robot.commands;
+package frc.robot.autocommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class AutoTurn extends CommandBase {
+public class AutoDrive extends CommandBase {
 
     private final Drivetrain drivetrain;
 
-    private final double power, angle;
+    private final double power, targetDistance;
+    private double startEncoder;
 
-    public AutoTurn(double angle, double power, Drivetrain drivetrain) {
+    public AutoDrive(double targetDistance, double power, Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
-        this.angle = angle;
         this.power = power;
+        this.targetDistance = targetDistance;
     }
 
     @Override
     public void initialize() {
+        startEncoder = drivetrain.getEncoderAverage();
     }
 
     @Override
     public void execute() {
-        drivetrain.arcadeDrive(0, power);
+        drivetrain.arcadeDrive(power, 0);
     }
 
     @Override
@@ -33,10 +35,7 @@ public class AutoTurn extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(drivetrain.getAngle() >= angle && power > 0) {
-            return true;
-        }
-        if(drivetrain.getAngle() <= angle && power < 0) {
+        if(Math.abs(drivetrain.getEncoderAverage() - startEncoder) >= targetDistance) {
             return true;
         }
         return false;

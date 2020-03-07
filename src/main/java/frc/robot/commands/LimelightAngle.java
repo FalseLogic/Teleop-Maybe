@@ -31,14 +31,14 @@ public class LimelightAngle extends CommandBase {
     public void execute() {
         if(limelight.getValidTarget()) {
             double heightAdjustDegrees = (limelight.getVertical() / 2) * (59.6 / 320) / 2;
-            if(limelight.getY() + heightAdjustDegrees - .0 < -.5) {
+            if(limelight.getY() + heightAdjustDegrees - .5 < -.5) {
                 if(anglers.getDartBottomLimit()) {
-                    anglers.setDartSafely(-.3);
+                    anglers.setDartSafely(-.32);
                 }
             }
-            else if(limelight.getY() + heightAdjustDegrees - .0 > .5) {
+            else if(limelight.getY() + heightAdjustDegrees - .5 > .5) {
                 if(anglers.getDartTopLimit()) {
-                    anglers.setDartSafely(.3);
+                    anglers.setDartSafely(.32);
                 }
             }
             else {

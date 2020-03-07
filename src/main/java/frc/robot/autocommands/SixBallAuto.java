@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.AutoDrive;
-import frc.robot.commands.AutoTurn;
 import frc.robot.commands.LimelightAngle;
 import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.LimelightShoot;
@@ -21,7 +19,7 @@ public class SixBallAuto extends SequentialCommandGroup {
     public SixBallAuto(Drivetrain drivetrain, Anglers anglers, Cannon cannon, Intake intake) {
         addCommands(
             new ParallelDeadlineGroup(
-                new AutoTurn(-21, -.4, drivetrain),
+                new AutoTurn(-19, -.4, drivetrain),
                 new RunCommand(() -> anglers.setDartSafely(-.6), anglers).withTimeout(1.5).andThen(new InstantCommand(() -> anglers.setDartSafely(0)))
             ),
             new ParallelCommandGroup(
@@ -32,9 +30,9 @@ public class SixBallAuto extends SequentialCommandGroup {
                 new WaitCommand(3.25),
                 new LimelightShoot(cannon, drivetrain.getLimelight())
             ),
-            new AutoTurn(-2, .34, drivetrain),
+            new AutoTurn(-8, .4, drivetrain),
             new ParallelDeadlineGroup(
-                new AutoDrive(130, .45, drivetrain),
+                new AutoDrive(130, .55, drivetrain),
                 new DefaultCannon(() -> false, () -> false, () -> false, cannon),
                 new RunCommand(() -> anglers.setDartSafely(-.8), anglers),
                 new SequentialCommandGroup(
@@ -48,8 +46,8 @@ public class SixBallAuto extends SequentialCommandGroup {
                     )
                 )
             ),
-            new AutoDrive(40, -.5, drivetrain),
-            new AutoTurn(-19, -.4, drivetrain),
+            new AutoDrive(10, -.5, drivetrain),
+            new AutoTurn(-21, -.4, drivetrain),
             new ParallelCommandGroup(
                 new LimelightAngle(drivetrain.getLimelight(), anglers),
                 new LimelightDrive(drivetrain)

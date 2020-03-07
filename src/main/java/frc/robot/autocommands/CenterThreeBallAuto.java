@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.AutoDrive;
 import frc.robot.commands.LimelightAngle;
 import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.LimelightShoot;

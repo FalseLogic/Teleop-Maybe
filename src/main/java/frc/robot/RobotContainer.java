@@ -12,12 +12,11 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.autocommands.AutoDrive;
+import frc.robot.autocommands.AutoTurn;
 import frc.robot.autocommands.SixBallAuto;
 import frc.robot.autocommands.ThreeBallAuto;
-import frc.robot.commands.AutoDrive;
-import frc.robot.commands.AutoTurn;
 import frc.robot.commands.BasicShoot;
 import frc.robot.commands.LimelightAngle;
 import frc.robot.commands.LimelightDrive;
@@ -87,7 +86,7 @@ public class RobotContainer {
 		intake.setDefaultCommand(new DefaultIntake(() -> xbox.getXButton(), () -> xbox.getBButton(),
 												   () -> xbox.getYButton(), () -> xbox.getAButton(), intake));
 		cannon.setDefaultCommand(new DefaultCannon(() -> xbox.getBackButton(),
-												   () -> xbox.getPOV() == 0, () -> xbox.getPOV() == 180, cannon));
+												   () -> xbox.getPOV() == 0, () -> false, cannon));
 		anglers.setDefaultCommand(new DefaultAngler(() -> stick.getRawButton(7), () -> stick.getRawButton(8), 
 													() -> stick.getRawButton(11) && stick.getRawButton(12), anglers));
 		lights.setDefaultCommand(new DefaultFlashyLights(() -> DefaultCannon.isFull,
@@ -134,50 +133,6 @@ public class RobotContainer {
 			new AutoDrive(40, -.5, drivetrain)
 		));
 		autoChooser.addOption("6 Balls Test", new SixBallAuto(drivetrain, anglers, cannon, intake));
-		autoChooser.addOption("6 Balls", new SequentialCommandGroup(
-			new ParallelDeadlineGroup(
-				new AutoTurn(-21, -.4, drivetrain),
-				new RunCommand(() -> anglers.setDartSafely(-.6), anglers).withTimeout(1.5).andThen(new InstantCommand(() -> anglers.setDartSafely(0)))
-			),
-			new ParallelCommandGroup(
-				new LimelightAngle(drivetrain.getLimelight(), anglers),
-				new LimelightDrive(drivetrain)
-			),
-			new ParallelDeadlineGroup(
-				new WaitCommand(3.25),
-				new LimelightShoot(cannon, drivetrain.getLimelight())
-			),
-			new AutoTurn(-2, .34, drivetrain),
-			new ParallelDeadlineGroup(
-				new AutoDrive(130, .45, drivetrain),
-				new DefaultCannon(() -> false, () -> false, () -> false, cannon),
-				new RunCommand(() -> anglers.setDartSafely(-.8), anglers),
-				new SequentialCommandGroup(
-					new ParallelDeadlineGroup(
-						new WaitCommand(.75),
-						new RunCommand(() -> intake.setArm(.75), intake)
-					),
-					new ParallelCommandGroup(
-						new RunCommand(() -> intake.setIntake(-1)),
-						new RunCommand(() -> intake.setArm(.3), intake)
-					)
-				)
-			),
-			new AutoDrive(40, -.5, drivetrain),
-			new AutoTurn(-19, -.4, drivetrain),
-			new ParallelCommandGroup(
-				new LimelightAngle(drivetrain.getLimelight(), anglers),
-				new LimelightDrive(drivetrain)
-			),
-			new ParallelDeadlineGroup(
-				new WaitCommand(5),
-				new LimelightShoot(cannon, drivetrain.getLimelight())
-			)
-		));
-
-		//3.77
-
-		
 
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 
@@ -185,16 +140,6 @@ public class RobotContainer {
 
 	public Command getAutoCommand() {
 		return autoChooser.getSelected();
-	}
-
-	private class LLToggleButton extends Button {
-
-		JoystickButton a = new JoystickButton(stick, 4), b = new JoystickButton(xbox, 5);
-
-		public boolean get() {
-			return a.get() || b.get();
-		}
-
 	}
 
 }

@@ -42,14 +42,17 @@ public class DefaultFlashyLights extends CommandBase {
     @Override
     public void execute() {
 
-        /*if(DriverStation.getInstance().getMatchTime() < 35 && DriverStation.getInstance().isOperatorControl()) {
+        if(DriverStation.getInstance().isDisabled()) {
+            lights.setAllColor(0, 0, 0);
+        }
+        else if(DriverStation.getInstance().getMatchTime() < 35 && DriverStation.getInstance().isOperatorControl() && DriverStation.getInstance().isFMSAttached()) {
             if(DriverStation.getInstance().getMatchTime() < 12) {
                 lights.rainbow();
             }
             else {
                 lights.flash(255, 255, 255, 20);
             }
-        }*/
+        }
         if(disco.getAsBoolean()) {
             lights.rainbow();
         }

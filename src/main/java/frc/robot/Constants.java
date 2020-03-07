@@ -31,8 +31,8 @@ public final class Constants {
     public static final int LED_STRIP_ADDRESS = 0;
 
     //Other constants
-    public static final double SHOOTER_VELOCITY_KP = 0.0012,
-                               SHOOTER_VELOCITY_KF = 0.0002148,
+    public static final double SHOOTER_VELOCITY_KP = 0.0013,
+                               SHOOTER_VELOCITY_KF = 0.0002151,
                                SHOOTER_MAX_VELOCITY = 4200;
 
     public static final int LED_STRIP_LENGTH = 62;

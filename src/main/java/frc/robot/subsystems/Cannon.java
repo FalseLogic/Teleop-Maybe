@@ -74,14 +74,14 @@ public class Cannon extends SubsystemBase {
 	public void pidShootPlus(double top, double bot) {
 		double topTarget = top * Constants.SHOOTER_MAX_VELOCITY, botTarget = bot * Constants.SHOOTER_MAX_VELOCITY;
 
-		if(topShoot.getEncoder().getVelocity() > .6 * topTarget) {
+		if(topShoot.getEncoder().getVelocity() > .7 * topTarget) {
 			topShoot.set(-1);
 		}
 		else {
 			topShoot.getPIDController().setReference(topTarget, ControlType.kVelocity);
 		}
 
-		if(botShoot.getEncoder().getVelocity() > .6 * botTarget) {
+		if(botShoot.getEncoder().getVelocity() > .7 * botTarget) {
 			botShoot.set(-1);
 		}
 		else {
@@ -133,6 +133,6 @@ public class Cannon extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("climber encoder", getClimbEncoder());
-	//	System.out.println("top: " + topShoot.getEncoder().getVelocity() + " bot: " + botShoot.getEncoder().getVelocity());
+		System.out.println("top: " + topShoot.getEncoder().getVelocity() + " bot: " + botShoot.getEncoder().getVelocity());
 	}
 }
